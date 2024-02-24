@@ -6,7 +6,7 @@ header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 
 session = requests.session()
 
-for j in range(1, 10):
+for j in range(1, 20):
     print(f"PAGE = {j}")
     url = f"https://kups.club/?page={j}"
 
@@ -18,18 +18,14 @@ for j in range(1, 10):
         products = allProduct.find_all("div", class_="card h-100")
 
         for i in range(len(products)):
-            title = None
-            img = None
-            price = None
-
             try:
-                title = products[i].find("a", class_='text-black link-default').text
+                title = products[i].find("h3", class_='card-title').text
+                print(title)
+                img = products[i].find("a", class_='text-black link-default').text
+                print(img)
                 price = products[i].find("p", class_='card-text').text
+                print(price)
+                with open("videogamesaturn.txt", "a", encoding="UTF-8") as file:
+                    file.write(f"{title} {img}---> {price}\n")
             except:
-                img = products[i].find("img", class_='mr-2')
-                print("Произошла ошибка, но нет информации о её типе")
-                print(f"{title} скидки нет")
-                print(f"{img} скидки нет")
-
-            with open("videogamesaturn.txt", "a", encoding="UTF-8") as file:
-                file.write(f"{title} {img}---> {price}\n")
+                print("Произошла ошибка")
